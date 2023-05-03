@@ -19,8 +19,11 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'surname',
+        'student_id',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -41,4 +44,32 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the assignments for the user.
+     */
+    public function assignments()
+    {
+        return $this->hasMany(Assignment::class, 'student_id');
+    }
+
+    /**
+     * Determine if the user is a teacher.
+     *
+     * @return bool
+     */
+    public function isTeacher()
+    {
+        return $this->role === 'teacher';
+    }
+
+     /**
+     * Determine if the user is a student.
+     *
+     * @return bool
+     */
+    public function isStudent()
+    {
+        return $this->role === 'student';
+    }
 }
