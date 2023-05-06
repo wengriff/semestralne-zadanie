@@ -26,19 +26,6 @@ class AuthController extends Controller {
         return redirect('/')->with('message', 'Welcome!');
     }
 
-    // Login
-    public function login(Request $request) {
-        $credentials = $request->only('email', 'password');
-
-        if (auth()->attempt($credentials)) {
-            return redirect('/');
-        }
-
-        return back()->withErrors([
-            'email' => 'Invalid credentials.',
-        ]);
-    }
-
     // Logout
     public function logout(Request $request) {
         auth()->logout();
@@ -68,8 +55,8 @@ class AuthController extends Controller {
         return back()->withErrors(['email' => 'Invalid Credentials'])->onlyInput('email');
     }
 
-    // Show login form
-    public function showLoginForm() {
+    // Show Login form
+    public function login() {
         return view('auth.login');
     }
 
