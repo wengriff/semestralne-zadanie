@@ -32,7 +32,7 @@ Route::get('/', function () {
 Route::post('/logout', [AuthController::class, 'logout']);
 
 // Show Login Form
-Route::get('/login', [AuthController::class, 'showLoginForm']);
+Route::get('/login', [AuthController::class, 'login'])->name('login');
 
 // Login User
 Route::get('/auth/authenticate', [AuthController::class, 'authenticate']);
