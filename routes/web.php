@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Controller;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +26,11 @@ use App\Http\Controllers\AuthController;
 // update - Update item
 // destroy - Delete item  
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [Controller::class, 'index']);
 
 // Log Out User 
 Route::post('/logout', [AuthController::class, 'logout']);
@@ -35,7 +39,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 
 // Login User
-Route::get('/auth/authenticate', [AuthController::class, 'authenticate']);
+Route::post('/users/authenticate', [AuthController::class, 'authenticate']);
 
 // Create User
 Route::post('/users', [AuthController::class, 'store']);
