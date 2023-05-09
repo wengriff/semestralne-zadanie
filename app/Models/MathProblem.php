@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class MathProblem extends Model
 {
@@ -20,23 +21,38 @@ class MathProblem extends Model
     {
         return $this->belongsTo(LatexFile::class);
     }
-    public function parseLatexContent()
+
+    public function parseFromLatexFile($filename)
     {
-        $pattern = '/\\\\section\*\{([A-Z0-9]+)\}.*?\\\\begin\{task\}(.*?)\\\\includegraphics\{(.*?)\}.*?\\\\end\{task\}.*?\\\\begin\{solution\}(.*?)\\\\end\{solution\}/s';
+        // 1. Load the LaTeX file
+        $content = Storage::disk('local')->get($filename); // Laravel way of reading a file
 
-        $content = Storage::get($this->file_path);
+        // 2. Define regular expressions
+        $taskRegex = '/\\\\begin\{task\}(.*?)\\\\includegraphics\{(.*?)\}.*?\\\\end\{task\}/s';
+        $solutionRegex = '/\\\\begin\{equation\*?\}(.*?)\\\\end\{equation\*?\}/s';
 
-        if (preg_match_all($pattern, $content, $matches, PREG_SET_ORDER)) {
-            foreach ($matches as $match) {
-                $mathProblem = new MathProblem([
-                    'section_id' => $match[1],
-                    'problem_statement' => $match[2],
-                    'solution' => $match[4],
-                    'image_path' => $match[3],
-                ]);
+        // 3. Get all matches
+        preg_match_all($taskRegex, $content, $taskMatches);
+        preg_match_all($solutionRegex, $content, $solutionMatches);
 
-                $this->mathProblems()->save($mathProblem);
-            }
+        // 4. Clean up the matches
+        $tasks = array_map('trim', $taskMatches[1]);
+        $imgs = array_map('trim', $taskMatches[2]);
+        $equations = array_map('trim', $solutionMatches[1]);
+
+        // 5. If there's a match, set the properties of the MathProblem instance.
+        if (count($tasks) > 0 && count($equations) > 0) {
+            $this->problem_statement = $tasks[0];
+            $this->solution = $equations[0];
+            $this->image_path = $imgs[0]; 
+            // you might need to adjust this, if the image path is relative.
         }
+
+        // 6. Return the updated instance.
+        return $this;
     }
+    // usage
+    // $mathProblem = new MathProblem();
+    // $mathProblem->parseFromLatexFile('file.tex');
+    // $mathProblem->save();
 }
