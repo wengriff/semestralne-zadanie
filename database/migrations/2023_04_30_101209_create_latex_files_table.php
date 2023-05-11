@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('file_path');
             $table->timestamps();
+            $table->timestamp('starting_date');
+            $table->timestamp('deadline');
+            $table->integer('points');
         });
     }
 

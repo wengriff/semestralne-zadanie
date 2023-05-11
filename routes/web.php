@@ -30,7 +30,7 @@ use App\Http\Controllers\TeacherController;
 //     return view('welcome');
 // });
 
-Route::get('/', [Controller::class, 'index']);
+Route::get('/', [Controller::class, 'dashboard'])->name('dashboard');
 
 // Log Out User 
 Route::post('/logout', [AuthController::class, 'logout']);
