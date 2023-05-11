@@ -1,1 +1,0 @@
-<!-- Shows the details of a specific submitted assignment and provides a form for submitting feedback or grades. -->

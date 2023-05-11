@@ -1,1 +1,0 @@
-<!-- Displays a list of submitted assignments, allowing the teacher to review and filter them. -->

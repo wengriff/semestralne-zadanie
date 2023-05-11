@@ -53,3 +53,4 @@ Route::get('/students', [TeacherController::class, 'students'])->name('students'
 
 //detailed table about students
 Route::get('/students/{id}/details', [TeacherController::class, 'studentDetails'])->name('student_details');
+
