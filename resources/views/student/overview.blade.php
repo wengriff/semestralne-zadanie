@@ -1,1 +1,0 @@
-<!-- A view for students to see their assignment overview, with the possibility to upload solutions. -->

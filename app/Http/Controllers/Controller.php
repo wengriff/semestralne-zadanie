@@ -11,6 +11,11 @@ class Controller extends BaseController
     use AuthorizesRequests, ValidatesRequests;
 
     public function index() {
-        return view('home.index');
+        $role = null;
+        if(auth()->check()) {
+            $role = auth()->user()->role;
+        }
+
+        return view('home.index', compact('role'));
     }
 }

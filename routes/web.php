@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\DashboardController;
 
 
 /*
@@ -46,3 +47,5 @@ Route::post('/users', [AuthController::class, 'store']);
 
 // Show Register Form
 Route::get('/register', [AuthController::class, 'create']);
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'checkRole:student,teacher']);
