@@ -3,8 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\DashboardController;
-
+use App\Http\Controllers\TeacherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +26,7 @@ use App\Http\Controllers\DashboardController;
 // update - Update item
 // destroy - Delete item  
 
-// Route::get('/', function () {
+// Route::get('/', function () { 
 //     return view('welcome');
 // });
 
@@ -48,4 +47,10 @@ Route::post('/users', [AuthController::class, 'store']);
 // Show Register Form
 Route::get('/register', [AuthController::class, 'create']);
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'checkRole:student,teacher']);
+//TEACHER
+//Table of students
+Route::get('/students', [TeacherController::class, 'students'])->name('students');
+
+//detailed table about students
+Route::get('/students/{id}/details', [TeacherController::class, 'studentDetails'])->name('student_details');
+
