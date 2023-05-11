@@ -23,6 +23,6 @@ class TeacherController extends Controller
                        // Add your relationships here
                        ->findOrFail($id);
 
-        return view('teacher.student_details', compact('student'));
+        return view('teacher.students_details', compact('student'));
     }
 }

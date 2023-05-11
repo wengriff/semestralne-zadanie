@@ -6,7 +6,7 @@
     </head>
 
 <x-app>
-    <x-card class="p-10 max-w-lg mx-auto mt-24">
+    <x-card class="p-10 w-50 mx-auto mt-24">
         <h1>Dashboard</h1>
         @if($role)
         @if($role=='student')
@@ -32,7 +32,7 @@
         <h3>Teacher Dashboard</h3>
         
         <p>Teacher-specific content goes here...</p>
-            <table class="table table-striped table-bordered table-hover" id="teacherAssignmentsTable">
+            <table class="table table-striped table-bordered table-hover table delete-row-example">
             <thead>
                 <tr>
                     <th>Assignment set</th>
@@ -42,17 +42,31 @@
                     <th>Submit</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody hx-target="closest tr" hx-swap="outerHTML">
                 @foreach($assignmentSets as $assignmentSet)
                     <tr>
                         <td>{{ $assignmentSet->id }}</td>
-                        <td>{{ $assignmentSet->starting_date }}</td>
-                        <td>{{ $assignmentSet->deadline }}</td>
+                        <td>{{ \Carbon\Carbon::parse($assignmentSet->starting_date)->format('Y-m-d') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($assignmentSet->deadline)->format('d-m-Y') }}</td>
                         <td>{{ $assignmentSet->points }}</td>
-                        <td><button hx-get="/contact/1/edit" class="btn btn-primary">
-                                Click To Edit
-                        </button></td>
-                    </tr>
+                        <td><button class="btn btn-danger" hx-get="{{ route('assignment.edit', $assignmentSet->id) }}"
+                        hx-trigger="edit"
+                _="on click
+                     if .editing is not empty
+                       Swal.fire({title: 'Already Editing',
+                                  showCancelButton: true,
+                                  confirmButtonText: 'Yep, Edit This Row!',
+                                  text:'Hey!  You are already editing a row!  Do you want to cancel that edit and continue?'})
+                       if the result's isConfirmed is false
+                         halt
+                       end
+                       send cancel to .editing
+                     end
+                     trigger edit">
+          Edit
+          </button>
+      </td>
+      </tr>             
                 @endforeach
             </tbody>
         </table>

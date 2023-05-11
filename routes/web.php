@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\AssignmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,4 +64,8 @@ Route::middleware(['auth', 'check.role:teacher'])->group(function () {
     // Teacher-specific routes, e.g.
     Route::get('/students', [TeacherController::class, 'students'])->name('students');
 });
+
+Route::get('/assignment/{id}/edit', [AssignmentController::class, 'edit'])->name('assignment.edit');
+Route::put('/assignment/{id}', [AssignmentController::class, 'update'])->name('assignment.update');
+Route::get('/assignment/{id}', [AssignmentController::class, 'show'])->name('assignment.show');
 
