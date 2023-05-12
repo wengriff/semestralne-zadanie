@@ -15,4 +15,22 @@ class AssignmentController extends Controller
 
         return view('home.index', compact('assignmentSets'));
     }
+
+    public function edit($id)
+    {
+    $assignmentSet = AssignmentSet::find($id);
+    return view('assignment.edit', compact('assignmentSet'));
+    }
+
+    public function update(Request $request, $id)
+{
+    $assignmentSet = AssignmentSet::find($id);
+    $assignmentSet->starting_date = $request->starting_date;
+    $assignmentSet->deadline = $request->deadline;
+    $assignmentSet->points = $request->points;
+    // Update other fields
+    $assignmentSet->save();
+
+    return view('assignment.show', compact('assignmentSet'));
+}
 }
