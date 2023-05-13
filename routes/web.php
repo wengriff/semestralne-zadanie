@@ -71,3 +71,4 @@ Route::get('/assignment/{id}', [AssignmentController::class, 'show'])->name('ass
 Route::post('/assignments/update-status', [AssignmentController::class, 'updateStatus']);
 //solve problem
 Route::get('/solve-problem/{problemId}', [AssignmentController::class, 'solve'])->name('solve-problem');
+Route::post('/submit', [AssignmentController::class, 'store'])->name('submit.solution');

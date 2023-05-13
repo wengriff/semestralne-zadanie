@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AssignmentSet;
 use App\Models\Assignment;
+use Illuminate\Support\Facades\Http;
 
 
 class AssignmentController extends Controller
@@ -77,10 +78,12 @@ public function show($id)
 public function solve($problemId)
 {
     // Retrieve the assignment based on the problem ID
-    $assignment = Assignment::find($problemId);
+    $assignment = Assignment::with('mathProblem')->find($problemId);
 
     // Pass the assignment data to the solve view
     return view('student.solve', ['assignment' => $assignment]);
 }
+
+
 
 }

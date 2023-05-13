@@ -3,7 +3,14 @@
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="{{ asset('js/teacherAssignmentsTable.js') }}"></script> 
-    </head>
+    <style>
+        a.disabled {
+            pointer-events: none;
+            cursor: default;
+            color: grey;
+        }
+    </style>    
+</head>
 
 <x-app>
     <x-card class="p-10 w-50 mx-auto mt-24">
@@ -16,25 +23,44 @@
     $disabledStatuses = ['generated', 'submitted_100', 'submitted_0'];  
         @endphp
         
-    @foreach($assignmentsGroupedBySet as $setID => $assignments)
-    <div class="card m-1" style="width-50;">
-    <div class="card-body">
-            <h3 class="card-title">Assignment Set {{ $setID }}</h3>
-        
-            <div class="card-text">
-            @foreach($assignments as $assignment)                   
-                        <button id="btn-{{ $assignment->id }}" class="btn btn-primary generate-btn m-1" data-problem-id="{{ $assignment->id }}"{{ in_array($assignment->pivot->status, $disabledStatuses) ? 'disabled' : '' }}
->
-                    Problem {{ $assignment->id }}</button>
-                    
-             
-            @endforeach
+        @php
+    $now = \Carbon\Carbon::now();
+@endphp
+
+@foreach($assignmentsGroupedBySet as $setID => $assignments)
+
+    @php
+        // Assuming the first assignment in each set defines the start and end date for the whole set
+        $startDate = \Carbon\Carbon::parse($assignments->first()->assignmentSet->starting_date);
+        $endDate = \Carbon\Carbon::parse($assignments->first()->assignmentSet->deadline);
+       
+    @endphp
+
+    @if($now->between($startDate, $endDate))
+        <div class="card m-1" style="width-50%;">
+            <div class="card-body">
+                <h3 class="card-title">Assignment Set {{ $setID }}</h3>
+                <div class="card-text">
+                    @foreach($assignments as $assignment)
+                        <button id="btn-{{ $assignment->id }}" class="btn btn-primary generate-btn m-1" data-problem-id="{{ $assignment->id }}"{{ in_array($assignment->pivot->status, $disabledStatuses) ? ' disabled' : '' }}>
+                            Problem {{ $assignment->id }}
+                        </button>
+                    @endforeach
+                </div>
             </div>
         </div>
-        </div>
-    @endforeach
+    @endif
+@endforeach
 
     @foreach($assignmentsGroupedBySet as $setID => $assignments)
+    @php
+        // Assuming the first assignment in each set defines the start and end date for the whole set
+        $startDate = \Carbon\Carbon::parse($assignments->first()->assignmentSet->starting_date);
+        $endDate = \Carbon\Carbon::parse($assignments->first()->assignmentSet->deadline);
+       
+    @endphp
+
+    @if($now->between($startDate, $endDate))
 <div class="card m-1" style="width-50;">
     <div class="card-body">
         <h3 class="card-title">Assignment Set {{ $setID }}</h3>
@@ -57,9 +83,11 @@
                             @else
                                 <i class="fa fa-times"></i> <!-- X icon. Replace with your own icon as needed. -->
                             @endif
-                            <a href="{{ route('solve-problem', ['problemId' => $assignment->id]) }}" class="btn btn-primary solve-btn"{{ $assignment->pivot->status == 'submitted_100' || $assignment->pivot->status == 'submitted_0' ? 'disabled' : '' }}>
+                            <a href="{{ route('solve-problem', ['problemId' => $assignment->id]) }}" 
+   class="btn btn-primary solve-btn {{ $assignment->pivot->status == 'submitted_100' || $assignment->pivot->status == 'submitted_0' ? 'disabled' : '' }}">
     Solve Problem
 </a>
+
 
                         </div>
                     </div>
@@ -69,22 +97,9 @@
         </div>
     </div>
 </div>
+@endif
 @endforeach
-        <!-- https://cortexjs.io/mathlive/guides/interacting/ -->
-        <label>Mathfield</label><br>
-        <math-field style="
-          display: block;
-            font-size: 32px;
-            margin: 3em;
-            padding: 8px;
-            border-radius: 8px;
-            border: 1px solid rgba(0, 0, 0, .3);
-            box-shadow: 0 0 8px rgba(0, 0, 0, .2);
-            --caret-color: red;
-            --selection-background-color: lightgoldenrodyellow;
-            --selection-color: darkblue;
-            ">
-        </math-field>
+       
         <!-- Student content -->
         @elseif($role == 'teacher')
         <h3>Teacher Dashboard</h3>

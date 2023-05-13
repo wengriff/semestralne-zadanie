@@ -60,6 +60,7 @@ class LatexFileSeeder extends Seeder
                     'student_id' => $student->id,
                     'math_problem_id' => $problem->id,
                     'status' => 'generated',  // Set the initial status
+                    'student_solution'=>'',
                 ]);
             }
         }

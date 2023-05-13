@@ -13,6 +13,7 @@ class Assignment extends Model
         'student_id',
         'math_problem_id',
         'status',
+        'student_solution',
     ];
 
     public function student()

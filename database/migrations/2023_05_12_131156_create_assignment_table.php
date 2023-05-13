@@ -16,8 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('student_id');
             $table->unsignedBigInteger('math_problem_id');
             $table->enum('status', ['not_allowed','not_generated','generated', 'submitted_100','submitted_0']);
+            $table->longText('student_solution');
             $table->timestamps();
-
+            
             $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('math_problem_id')->references('id')->on('math_problems')->onDelete('cascade');
         });

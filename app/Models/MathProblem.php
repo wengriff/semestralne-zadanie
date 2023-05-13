@@ -16,7 +16,6 @@ class MathProblem extends Model
         'solution',
         'image_path',
         'assignmentSet_id',
-        'student_solution',
     ];
 
 

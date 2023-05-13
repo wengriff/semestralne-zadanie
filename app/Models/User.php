@@ -98,6 +98,7 @@ protected static function booted()
                     'student_id' => $user->id,
                     'math_problem_id' => $mathProblem->id,
                     'status' => 'generated',
+                    'student_solution'=>'',
                 ]);
                 Log::info('DONE');
             }
