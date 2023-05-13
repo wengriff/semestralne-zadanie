@@ -1,0 +1,10 @@
+1 test triggered 1 notice:
+
+1) FooTest::testBar
+message
+Foo.php:1
+
+FooTest.php:1
+
+OK, but there are issues!
+Tests: 1, Assertions: 1, Notices: 1.

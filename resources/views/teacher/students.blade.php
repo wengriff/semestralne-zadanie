@@ -30,6 +30,7 @@
                     <td>{{ $student->surname }}</td>
                     <td>{{ $student->generated_equations_count }}</td>
                     <td>{{ $student->submitted_equations_count }}</td>
+                    
                     <td>{{ $student->points }}</td>
                 </tr>
             @endforeach

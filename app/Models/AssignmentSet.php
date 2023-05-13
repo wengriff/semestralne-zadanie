@@ -9,7 +9,7 @@ class AssignmentSet extends Model
 {
     use HasFactory;
     
-    protected $table = 'latex_files';
+   
 
     protected $fillable = [
         'file_path',
@@ -17,4 +17,9 @@ class AssignmentSet extends Model
         'deadline',
         'points',
     ];
+
+    public function mathProblems()
+{
+    return $this->hasMany(MathProblem::class);
+}
 }

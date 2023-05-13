@@ -7,11 +7,69 @@
 
 <x-app>
     <x-card class="p-10 w-50 mx-auto mt-24">
-        <h1>Dashboard</h1>
+        
         @if($role)
         @if($role=='student')
-        <h3>Student Dashboard</h3>
-        <p>Student-specific content goes here...</p>
+
+        <h2>Pick your problems to be generated</h2>        
+        @php
+    $disabledStatuses = ['generated', 'submitted_100', 'submitted_0'];  
+        @endphp
+        
+    @foreach($assignmentsGroupedBySet as $setID => $assignments)
+    <div class="card m-1" style="width-50;">
+    <div class="card-body">
+            <h3 class="card-title">Assignment Set {{ $setID }}</h3>
+        
+            <div class="card-text">
+            @foreach($assignments as $assignment)                   
+                        <button id="btn-{{ $assignment->id }}" class="btn btn-primary generate-btn m-1" data-problem-id="{{ $assignment->id }}"{{ in_array($assignment->pivot->status, $disabledStatuses) ? 'disabled' : '' }}
+>
+                    Problem {{ $assignment->id }}</button>
+                    
+             
+            @endforeach
+            </div>
+        </div>
+        </div>
+    @endforeach
+
+    @foreach($assignmentsGroupedBySet as $setID => $assignments)
+<div class="card m-1" style="width-50;">
+    <div class="card-body">
+        <h3 class="card-title">Assignment Set {{ $setID }}</h3>
+        <div class="card-text">
+            @foreach($assignments as $assignment)
+                @if(in_array($assignment->pivot->status, $disabledStatuses))
+                <div class="card-body">
+                    <div class="row">
+                    @php
+                    $imagePathParts = explode("/", $assignment->image_path);
+                    $imageFileName = end($imagePathParts);
+                    @endphp
+                        <div class="col-md-6">
+                            <img class="img-fluid" src="{{ asset('storage/images/' . $imageFileName) }}" alt="Problem Image">
+                  
+                        </div>
+                        <div class="col-md-6">
+                            @if($assignment->pivot->status == 'submitted_100' || $assignment->pivot->status == 'submitted_0')
+                                <i class="fa fa-check"></i> <!-- Check mark icon. Replace with your own icon as needed. -->
+                            @else
+                                <i class="fa fa-times"></i> <!-- X icon. Replace with your own icon as needed. -->
+                            @endif
+                            <a href="{{ route('solve-problem', ['problemId' => $assignment->id]) }}" class="btn btn-primary solve-btn"{{ $assignment->pivot->status == 'submitted_100' || $assignment->pivot->status == 'submitted_0' ? 'disabled' : '' }}>
+    Solve Problem
+</a>
+
+                        </div>
+                    </div>
+                    </div>
+                @endif
+            @endforeach
+        </div>
+    </div>
+</div>
+@endforeach
         <!-- https://cortexjs.io/mathlive/guides/interacting/ -->
         <label>Mathfield</label><br>
         <math-field style="
@@ -80,3 +138,31 @@
         @endif
     </x-card>
 </x-app>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('.generate-btn').click(function() {
+        var problemId = $(this).data('problem-id');
+
+        $.ajax({
+            url: '/assignments/update-status',
+            type: 'POST',
+            data: {
+                problem_id: problemId,
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(data) {
+                if (data.success) {
+                    // Do something when the status has been successfully updated
+                    // For example, disable the button:
+                    $(this).attr('disabled', 'disabled');
+                    location.reload();
+                }
+            }.bind(this) // Bind the callback to the button
+        });
+    });
+});
+</script>
+

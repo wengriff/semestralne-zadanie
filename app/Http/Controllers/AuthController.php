@@ -20,7 +20,7 @@ class AuthController extends Controller {
 
         // Hash Password
         $formFields['password'] = bcrypt($formFields['password']);
-
+        $formFields['role']='student';
         // Create User
         $user = User::create($formFields);
 
