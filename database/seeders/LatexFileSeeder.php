@@ -19,7 +19,7 @@ class LatexFileSeeder extends Seeder
   
     $folderPath = storage_path('latex');
     echo $folderPath;
-    $files = glob($folderPath . '/blokovka*.tex');
+    $files = glob($folderPath . '/*.tex');
 
     // Get all the students from the database
     $students = User::where('role', 'student')->get();
@@ -49,6 +49,7 @@ class LatexFileSeeder extends Seeder
                 'problem_statement' => $problemData['problem_statement'],
                 'solution' => $problemData['solution'],
                 'image_path' => $problemData['image_path'],
+                'equation' =>$problemData['equation'],
                 'assignment_set_id' =>$assignmentSet['id'],
             ]);
             
@@ -59,7 +60,7 @@ class LatexFileSeeder extends Seeder
                 Assignment::create([
                     'student_id' => $student->id,
                     'math_problem_id' => $problem->id,
-                    'status' => 'generated',  // Set the initial status
+                    'status' => 'not_generated',  // Set the initial status
                     'student_solution'=>'',
                 ]);
             }

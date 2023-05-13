@@ -69,14 +69,24 @@
                 @if(in_array($assignment->pivot->status, $disabledStatuses))
                 <div class="card-body">
                     <div class="row">
-                    @php
-                    $imagePathParts = explode("/", $assignment->image_path);
-                    $imageFileName = end($imagePathParts);
-                    @endphp
-                        <div class="col-md-6">
-                            <img class="img-fluid" src="{{ asset('storage/images/' . $imageFileName) }}" alt="Problem Image">
-                  
-                        </div>
+                    
+                   
+                    @if($assignment->image_path != '')
+                    <div class="col-md-6">
+                        @php
+                            $imagePathParts = explode("/", $assignment->image_path);
+                            $imageFileName = end($imagePathParts);
+                        @endphp
+
+                        <img class="img-fluid" src="{{ asset('storage/images/' . $imageFileName) }}" alt="Problem Image">
+                                
+                        @elseif($assignment->equation!= '')
+                    <p>{{$assignment->equation}}</p>
+                    </div>
+                    @endif
+                        
+                         
+                        
                         <div class="col-md-6">
                             @if($assignment->pivot->status == 'submitted_100' || $assignment->pivot->status == 'submitted_0')
                                 <i class="fa fa-check"></i> <!-- Check mark icon. Replace with your own icon as needed. -->
