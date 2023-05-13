@@ -29,7 +29,7 @@
         <form action="{{ route('submit.solution') }}" method="post">    
         @csrf
         <input type="hidden" name="problemId" value="{{ $assignment->id }}">  
-        <textarea name="solution" class="output" id="latex" autocapitalize="none" autocomplete="off" autocorrect="off" spellcheck="false">
+        <textarea style="display:none" name="solution" class="output" id="latex" autocapitalize="none" autocomplete="off" autocorrect="off" spellcheck="false">
           </textarea> 
           <button class="btn btn-lg bg-laravel text-white rounded py-2 px-4 hover:bg-black" type="submit">      Submit      </button>
           </form>

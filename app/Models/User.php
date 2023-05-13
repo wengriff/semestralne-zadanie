@@ -97,7 +97,7 @@ protected static function booted()
                 Assignment::create([
                     'student_id' => $user->id,
                     'math_problem_id' => $mathProblem->id,
-                    'status' => 'generated',
+                    'status' => 'not_generated',
                     'student_solution'=>'',
                 ]);
                 Log::info('DONE');
