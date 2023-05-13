@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('problem_statement');
             $table->text('solution');
             $table->string('image_path');
+            $table->text('equation');
             $table->timestamps();
 
             $table->foreign('assignment_set_id')->references('id')->on('assignment_sets')->onDelete('cascade');

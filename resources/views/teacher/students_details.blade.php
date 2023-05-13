@@ -20,15 +20,21 @@
         </thead>
         <tbody>
         @foreach($student->assignments as $assignment)
-        @php
-            $imagePathParts = explode("/", $assignment->mathProblem->image_path);
-            $imageFileName = end($imagePathParts);
-        @endphp
+       
         @if($assignment->status != 'not_generated')
     <tr>
     <td>
     @if($assignment->status != 'not_generated')
-    <img src="{{ asset('storage/images/' . $imageFileName) }}" alt="Problem Image">
+    @if($assignment->mathProblem->image_path != '')
+        @php
+            $imagePathParts = explode("/", $assignment->mathProblem->image_path);
+            $imageFileName = end($imagePathParts);
+        @endphp
+
+        <img src="{{ asset('storage/images/' . $imageFileName) }}" alt="Problem Image">
+    @elseif($assignment->mathProblem->equation!= '')
+            <p>{{$assignment->mathProblem->equation}}</p>
+    @endif
     @endif
     </td>
     <td>
@@ -39,7 +45,8 @@
     @endif
     </td>
     <td>@if($assignment->status != 'not_generated' && $assignment->status != 'generated')
-        TODO
+          
+    {{$assignment->student_solution}}
         @endif</td>
     
     <td>
@@ -50,7 +57,13 @@
     @endif
     </td>
     <td>@if($assignment->status != 'not_generated' && $assignment->status != 'generated')
-        {{$assignment->mathProblem->assignmentSet->points}}
+        @if($assignment->status == 'submitted_0')
+            0
+        @elseif($assignment->status == 'submitted_100')
+            {{$assignment->mathProblem->assignmentSet->points}}
+        
+        
+        @endif
         @endif
     </td>
 </tr>
