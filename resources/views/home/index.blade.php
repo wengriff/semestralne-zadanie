@@ -112,9 +112,12 @@
        
         <!-- Student content -->
         @elseif($role == 'teacher')
-        <h3>Teacher Dashboard</h3>
         
-        <p>Teacher-specific content goes here...</p>
+        <a href="/students" 
+   class="btn btn-primary">
+    Students
+</a>
+<h3>Assignments</h3>
             <table class="table table-striped table-bordered table-hover table delete-row-example">
             <thead>
                 <tr>

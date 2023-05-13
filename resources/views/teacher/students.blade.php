@@ -7,6 +7,10 @@
     </head>
 <x-app>
 <x-card class="p-5  w-50 mx-auto mt-24">
+<a href="../" 
+   class="btn btn-primary">
+    Assignments
+</a>
 <table class="table table-striped table-bordered table-hover" id="studentTable">
         <thead>
             <tr>
