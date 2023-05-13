@@ -70,9 +70,9 @@
                 <div class="card-body">
                     <div class="row">
                     
-                   
-                    @if($assignment->image_path != '')
                     <div class="col-md-6">
+                    @if($assignment->image_path != '')
+                    
                         @php
                             $imagePathParts = explode("/", $assignment->image_path);
                             $imageFileName = end($imagePathParts);
@@ -82,9 +82,9 @@
                                 
                         @elseif($assignment->equation!= '')
                     <p>{{$assignment->equation}}</p>
-                    </div>
+                    
                     @endif
-                        
+                    </div>
                          
                         
                         <div class="col-md-6">
