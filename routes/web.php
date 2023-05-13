@@ -49,23 +49,25 @@ Route::post('/users', [AuthController::class, 'store']);
 Route::get('/register', [AuthController::class, 'create']);
 
 //TEACHER
-
-//Table of students
-/*Route::get('/students', [TeacherController::class, 'students'])
-->name('students')
-->middleware('check.role:teacher');*/
-
 //detailed table about students
-Route::get('/students/{id}/details', [TeacherController::class, 'studentDetails'])
-->name('student_details')
-->middleware('check.role:teacher');
-
 Route::middleware(['auth', 'check.role:teacher'])->group(function () {
-    // Teacher-specific routes, e.g.
-    Route::get('/students', [TeacherController::class, 'students'])->name('students');
+    Route::get('/students/{id}/details', [TeacherController::class, 'studentDetails'])
+    ->name('student_details');
 });
 
+//info about students
+Route::middleware(['auth', 'check.role:teacher'])->group(function () {
+    Route::get('/students', [TeacherController::class, 'students'])
+    ->name('students');
+});
+
+//teacher edit assingment and save
 Route::get('/assignment/{id}/edit', [AssignmentController::class, 'edit'])->name('assignment.edit');
 Route::put('/assignment/{id}', [AssignmentController::class, 'update'])->name('assignment.update');
 Route::get('/assignment/{id}', [AssignmentController::class, 'show'])->name('assignment.show');
 
+//STUDENT
+//generate problem update webpage
+Route::post('/assignments/update-status', [AssignmentController::class, 'updateStatus']);
+//solve problem
+Route::get('/solve-problem/{problemId}', [AssignmentController::class, 'solve'])->name('solve-problem');

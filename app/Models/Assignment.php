@@ -11,7 +11,7 @@ class Assignment extends Model
 
     protected $fillable = [
         'student_id',
-        'example_id',
+        'math_problem_id',
         'status',
     ];
 
@@ -19,14 +19,15 @@ class Assignment extends Model
     {
         return $this->belongsTo(User::class, 'student_id');
     }
-
-    public function example()
-    {
-        return $this->belongsTo(Example::class);
-    }
-
     public function solution()
     {
         return $this->hasOne(AssignmentSolution::class);
     }
+
+public function mathProblem() // or example
+{
+    return $this->belongsTo(MathProblem::class, 'math_problem_id'); // replace with Example::class if necessary
+}
+
+
 }

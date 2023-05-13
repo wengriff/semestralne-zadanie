@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\MathProblem;
+use App\Models\Assignment;
+use Illuminate\Support\Facades\Log;
 
 class User extends Authenticatable
 {
@@ -72,4 +75,33 @@ class User extends Authenticatable
     {
         return $this->role === 'student';
     }
+
+    public function mathProblems()  // or you can name it examples if you wish
+{
+    return $this->belongsToMany(MathProblem::class, 'assignments', 'student_id', 'math_problem_id')
+                
+                ->withPivot(['status']) // if you want to access status field from pivot table
+                ->withTimestamps(); // if your pivot table has timestamps
+}
+
+protected static function booted()
+{
+    static::created(function ($user) {
+        Log::info('created user');
+        if ($user->role === 'student') {
+            Log::info('is student');
+            // get all the math problems
+            $mathProblems = MathProblem::all();
+            Log::info('problem' . $mathProblems->count());
+            foreach ($mathProblems as $mathProblem) {
+                Assignment::create([
+                    'student_id' => $user->id,
+                    'math_problem_id' => $mathProblem->id,
+                    'status' => 'generated',
+                ]);
+                Log::info('DONE');
+            }
+        }
+    });
+}
 }

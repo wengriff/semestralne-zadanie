@@ -9,23 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('latex_files', function (Blueprint $table) {
+        Schema::create('assignment_sets', function (Blueprint $table) {
             $table->id();
             $table->string('file_path');
-            $table->timestamps();
             $table->timestamp('starting_date');
             $table->timestamp('deadline');
             $table->integer('points');
+            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('latex_files');
+        Schema::dropIfExists('assignment_sets');
     }
 };
