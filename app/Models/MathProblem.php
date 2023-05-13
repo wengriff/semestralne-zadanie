@@ -15,7 +15,8 @@ class MathProblem extends Model
         'problem_statement',
         'solution',
         'image_path',
-        'assignmentSet_id'
+        'assignmentSet_id',
+        'student_solution',
     ];
 
 
