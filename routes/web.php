@@ -73,3 +73,5 @@ Route::post('/assignments/update-status', [AssignmentController::class, 'updateS
 Route::get('/solve-problem/{problemId}', [AssignmentController::class, 'solve'])->name('solve-problem');
 Route::post('/submit', [AssignmentController::class, 'store'])->name('submit.solution');
 Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'App\Http\Controllers\LanguageController@switchLang']);
+Route::get('/export-csv', 'App\Http\Controllers\ExportController@export')->name('export.csv');
+

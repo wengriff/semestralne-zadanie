@@ -40,6 +40,7 @@
             @endforeach
         </tbody>
     </table>
+    <a href="{{ route('export.csv') }}">Export to CSV</a>
 
 </x-card>
 </x-app>

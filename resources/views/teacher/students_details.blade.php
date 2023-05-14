@@ -12,7 +12,7 @@
         <thead>
             <tr>
                 <th>{{__('studentDetails.points')}}</th>
-                <th>{{__('studentDetails.isSub')}}/th>
+                <th>{{__('studentDetails.isSub')}}</th>
                 <th>{{__('studentDetails.answer')}}</th>
                 <th>{{__('studentDetails.isCorrect')}}</th>
                 <th>{{__('studentDetails.points')}}</th>
@@ -71,5 +71,6 @@
 @endforeach
         </tbody>
     </table>
+
 </x-card>
 </x-app>
