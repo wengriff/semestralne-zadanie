@@ -25,15 +25,15 @@ use App\Http\Controllers\AssignmentController;
 // store - Store new item
 // edit - Show form to edit item
 // update - Update item
-// destroy - Delete item  
+// destroy - Delete item
 
-// Route::get('/', function () { 
+// Route::get('/', function () {
 //     return view('welcome');
 // });
 
 Route::get('/', [Controller::class, 'dashboard'])->name('dashboard');
 
-// Log Out User 
+// Log Out User
 Route::post('/logout', [AuthController::class, 'logout']);
 
 // Show Login Form
@@ -72,3 +72,4 @@ Route::post('/assignments/update-status', [AssignmentController::class, 'updateS
 //solve problem
 Route::get('/solve-problem/{problemId}', [AssignmentController::class, 'solve'])->name('solve-problem');
 Route::post('/submit', [AssignmentController::class, 'store'])->name('submit.solution');
+Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'App\Http\Controllers\LanguageController@switchLang']);
