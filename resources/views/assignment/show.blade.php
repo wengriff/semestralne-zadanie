@@ -1,3 +1,4 @@
+
 <tr>
                         <td>{{ $assignmentSet->id }}</td>
                         <td>{{ $assignmentSet->starting_date }}</td>
@@ -17,7 +18,7 @@
                        send cancel to .editing
                      end
                      trigger edit">
-          Edit
+                                {{__('show.edit')}}
           </button>
       </td>
-      </tr> 
+      </tr>

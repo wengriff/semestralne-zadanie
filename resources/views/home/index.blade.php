@@ -2,27 +2,27 @@
     <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="{{ asset('js/teacherAssignmentsTable.js') }}"></script> 
+    <script src="{{ asset('js/teacherAssignmentsTable.js') }}"></script>
     <style>
         a.disabled {
             pointer-events: none;
             cursor: default;
             color: grey;
         }
-    </style>    
+    </style>
 </head>
 
 <x-app>
     <x-card class="p-10 w-50 mx-auto mt-24">
-        
+
         @if($role)
         @if($role=='student')
 
-        <h2>Pick your problems to be generated</h2>        
+        <h2>{{__('index.pickProblems')}}</h2>
         @php
-    $disabledStatuses = ['generated', 'submitted_100', 'submitted_0'];  
+    $disabledStatuses = ['generated', 'submitted_100', 'submitted_0'];
         @endphp
-        
+
         @php
     $now = \Carbon\Carbon::now();
 @endphp
@@ -33,17 +33,17 @@
         // Assuming the first assignment in each set defines the start and end date for the whole set
         $startDate = \Carbon\Carbon::parse($assignments->first()->assignmentSet->starting_date);
         $endDate = \Carbon\Carbon::parse($assignments->first()->assignmentSet->deadline);
-       
+
     @endphp
 
     @if($now->between($startDate, $endDate))
         <div class="card m-1" style="width-50%;">
             <div class="card-body">
-                <h3 class="card-title">Assignment Set {{ $setID }}</h3>
+                <h3 class="card-title">{{__('index.assignmentS')}}{{ $setID }}</h3>
                 <div class="card-text">
                     @foreach($assignments as $assignment)
                         <button id="btn-{{ $assignment->id }}" class="btn btn-primary generate-btn m-1" data-problem-id="{{ $assignment->id }}"{{ in_array($assignment->pivot->status, $disabledStatuses) ? ' disabled' : '' }}>
-                            Problem {{ $assignment->id }}
+                            {{__('index.problem')}} {{ $assignment->id }}
                         </button>
                     @endforeach
                 </div>
@@ -57,45 +57,45 @@
         // Assuming the first assignment in each set defines the start and end date for the whole set
         $startDate = \Carbon\Carbon::parse($assignments->first()->assignmentSet->starting_date);
         $endDate = \Carbon\Carbon::parse($assignments->first()->assignmentSet->deadline);
-       
+
     @endphp
 
     @if($now->between($startDate, $endDate))
 <div class="card m-1" style="width-50;">
     <div class="card-body">
-        <h3 class="card-title">Assignment Set {{ $setID }}</h3>
+        <h3 class="card-title">{{__('index.assignmentS')}}{{ $setID }}</h3>
         <div class="card-text">
             @foreach($assignments as $assignment)
                 @if(in_array($assignment->pivot->status, $disabledStatuses))
                 <div class="card-body">
                     <div class="row">
-                    
+
                     <div class="col-md-6">
                     @if($assignment->image_path != '')
-                    
+
                         @php
                             $imagePathParts = explode("/", $assignment->image_path);
                             $imageFileName = end($imagePathParts);
                         @endphp
 
                         <img class="img-fluid" src="{{ asset('storage/images/' . $imageFileName) }}" alt="Problem Image">
-                                
+
                         @elseif($assignment->equation!= '')
                     <p>{{$assignment->equation}}</p>
-                    
+
                     @endif
                     </div>
-                         
-                        
+
+
                         <div class="col-md-6">
                             @if($assignment->pivot->status == 'submitted_100' || $assignment->pivot->status == 'submitted_0')
                                 <i class="fa fa-check"></i> <!-- Check mark icon. Replace with your own icon as needed. -->
                             @else
                                 <i class="fa fa-times"></i> <!-- X icon. Replace with your own icon as needed. -->
                             @endif
-                            <a href="{{ route('solve-problem', ['problemId' => $assignment->id]) }}" 
+                            <a href="{{ route('solve-problem', ['problemId' => $assignment->id]) }}"
    class="btn btn-primary solve-btn {{ $assignment->pivot->status == 'submitted_100' || $assignment->pivot->status == 'submitted_0' ? 'disabled' : '' }}">
-    Solve Problem
+                                {{__('index.solve')}}
 </a>
 
 
@@ -109,23 +109,23 @@
 </div>
 @endif
 @endforeach
-       
+
         <!-- Student content -->
         @elseif($role == 'teacher')
-        
-        <a href="/students" 
+
+        <a href="/students"
    class="btn btn-primary">
-    Students
+            {{__('index.students')}}
 </a>
-<h3>Assignments</h3>
+<h3>{{__('index.assignments')}}</h3>
             <table class="table table-striped table-bordered table-hover table delete-row-example">
             <thead>
                 <tr>
-                    <th>Assignment set</th>
-                    <th>Starting date</th>
-                    <th>Deadline</th>
-                    <th>Points</th>
-                    <th>Submit</th>
+                    <th>{{__('index.assignmentS')}}</th>
+                    <th>{{__('index.startDate')}}</th>
+                    <th>{{__('index.deadline')}}</th>
+                    <th>{{__('index.points')}}</th>
+                    <th>{{__('index.submit')}}</th>
                 </tr>
             </thead>
             <tbody hx-target="closest tr" hx-swap="outerHTML">
@@ -149,18 +149,18 @@
                        send cancel to .editing
                      end
                      trigger edit">
-          Edit
+                                {{__('index.edit')}}
           </button>
       </td>
-      </tr>             
+      </tr>
                 @endforeach
             </tbody>
         </table>
         @else
-        <p>Invalid role</p>
+        <p>{{__('index.invalidRole')}}</p>
         @endif
         @else
-        <h3>Welcome to the Homepage</h3>
+        <h3>{{__('index.welcomeTHP')}}</h3>
             <p>Regular homepage content for guests goes here...</p>
             <!-- Guest content -->
         @endif
