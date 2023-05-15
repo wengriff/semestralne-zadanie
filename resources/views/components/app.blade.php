@@ -65,6 +65,9 @@
                     @endforeach
                 </ul>
             </li>
+            <li>
+                <a href="/tutorial" class="hover:text-laravel"><i class="fa-solid fa-user-plus"></i> {{__('app.tutorial')}}</a>
+            </li>
       @else
       <li>
         <a href="/register" class="hover:text-laravel"><i class="fa-solid fa-user-plus"></i> {{__('app.register')}}</a>
@@ -83,6 +86,9 @@
                     @endif
                 @endforeach
             </ul>
+        </li>
+        <li>
+            <a href="/tutorial" class="hover:text-laravel"><i class="fa-solid fa-user-plus"></i> {{__('app.tutorial')}}</a>
         </li>
 
       @endauth

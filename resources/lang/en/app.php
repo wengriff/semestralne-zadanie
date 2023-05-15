@@ -7,4 +7,5 @@ return [
     'logout' => 'Logout',
     'register' => 'Register',
     'login' => 'Login',
+    'tutorial' => 'Tutorial'
 ];
