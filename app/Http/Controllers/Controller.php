@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use App\Models\User;
 
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
@@ -31,9 +32,9 @@ class Controller extends BaseController
         $role=null;
         if(auth()->check()) {
             $role = auth()->user()->role;
-        
 
-        
+
+
             if ($role == 'student') {
                 $mathProblems = auth()->user()->mathProblems()->with('assignmentSet')->get();
                 $assignmentsGroupedBySet = $mathProblems->groupBy(function ($item, $key) {
@@ -41,14 +42,14 @@ class Controller extends BaseController
         });
 
         return $indexResult->with([
-            'assignments' => $mathProblems,  
+            'assignments' => $mathProblems,
             'assignmentsGroupedBySet' => $assignmentsGroupedBySet
         ]);
         } else if ($role == 'teacher') {
             $assignmentSetsResult = (new AssignmentController())->assignmentSets();
             $indexResult->with('assignmentSets', $assignmentSetsResult->getData()['assignmentSets']);
         }else if($role == 'admin'){
-            $users = User::where('role', '<>', 'admin')->get(); 
+            $users = User::where('role', '<>', 'admin')->get();
             return $indexResult->with('users', $users);
         }
 
@@ -64,7 +65,7 @@ public function store(Request $request)
 
     $problemId = $request->input('problemId');
     $solution = $request->input('solution');
-    
+
     // Retrieve the assignment based on the problem ID
     $assignment = Assignment::where('student_id', $user->id)->where('math_problem_id', $problemId)->first();
 
@@ -92,7 +93,7 @@ public function store(Request $request)
             $assignment->update(['status' => 'submitted_0']);
         }
     }
-    
+
 
     // Redirect the user back to the page, or to another page
     return redirect()->route('dashboard');
