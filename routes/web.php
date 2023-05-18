@@ -72,3 +72,5 @@ Route::post('/assignments/update-status', [AssignmentController::class, 'updateS
 //solve problem
 Route::get('/solve-problem/{problemId}', [AssignmentController::class, 'solve'])->name('solve-problem');
 Route::post('/submit', [AssignmentController::class, 'store'])->name('submit.solution');
+
+Route::put('user/{user}/updateRole', [Controller::class, 'updateRole'])->name('user.updateRole');

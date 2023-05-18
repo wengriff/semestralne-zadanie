@@ -9,6 +9,7 @@ use App\Models\AssignmentSet;
 use App\Models\MathProblem;
 use App\Models\Assignment;
 use Illuminate\Filesystem\Filesystem;
+
 class LatexFileSeeder extends Seeder
 {
     /**
