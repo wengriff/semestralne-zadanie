@@ -1,2 +1,2 @@
 # semestralne-zadanie
-test
+Semestrálne zadanie predmetu WEBTE-2
