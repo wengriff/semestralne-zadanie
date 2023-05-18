@@ -18,10 +18,12 @@ class AuthController extends Controller {
             'password' => 'required|confirmed|min:6'
         ]);
 
-        // Hash Password
+
+
         $formFields['password'] = bcrypt($formFields['password']);
         $formFields['role']='student';
-        // Create User
+        // Create useR
+
         $user = User::create($formFields);
 
         // Login

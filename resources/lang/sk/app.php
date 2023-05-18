@@ -7,5 +7,6 @@ return [
     'logout' => 'Odhlásiť',
     'register' => 'Registrovať',
     'login' => 'Prihlásiť sa',
+    'tutorial'=> 'Návod'
 
 ];
