@@ -3,3 +3,4 @@ config.php
 /.vscode
 .env
 vendor/
+.env-server
