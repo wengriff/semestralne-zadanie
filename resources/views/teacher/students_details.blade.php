@@ -8,7 +8,8 @@
         <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     </head>
-<x-app>
+    
+<x-app> 
 <x-card class="p-10 w-75 mx-auto mt-24">
     <h2>{{ $student->name }} {{ $student->surname }}</h2>
     <table class="table table-striped table-bordered table-hover" id="studentDetailsTable">

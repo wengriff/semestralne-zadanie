@@ -11,6 +11,7 @@
    class="btn btn-primary">
     {{__('students.assignments')}}
 </a>
+
 <table class="table table-striped table-bordered table-hover" id="studentTable">
         <thead>
             <tr>
