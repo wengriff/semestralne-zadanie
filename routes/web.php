@@ -5,6 +5,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\TutorialController;
+use App\Http\Controllers\PDFController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,5 +80,8 @@ Route::put('user/{user}/updateRole', [Controller::class, 'updateRole'])->name('u
 
 Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'App\Http\Controllers\LanguageController@switchLang']);
 Route::get('/export-csv', 'App\Http\Controllers\ExportController@export')->name('export.csv');
+Route::get('/tutorial', [TutorialController::class, 'index']);
+Route::get('/export-pdf', [PDFController::class, 'exportPDF']);
+
 
 
