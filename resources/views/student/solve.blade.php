@@ -1,13 +1,28 @@
+<head>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+</head>
 <x-app>
     <x-card class="p-10 w-50 mx-auto mt-24">
 
      <!-- Display the problem image -->
+  
+                    
+     @if($assignment->mathProblem->image_path != '')
      @php
             $imagePathParts = explode("/", $assignment->mathProblem->image_path);
             $imageFileName = end($imagePathParts);
-        @endphp
-      <img class="img-fluid" src="{{ asset('storage/images/' . $imageFileName) }}" alt="Problem Image">
-                  
+     @endphp
+     <img class="img-fluid" src="{{ asset('storage/images/' . $imageFileName) }}" alt="Problem Image">
+      
+        @elseif($assignment->mathProblem->equation!= '')
+        <div class="d-flex container justify-content-center" id="latexField">
+          <p>\({{$assignment->mathProblem->equation}}\)</p>
+</div>   
+                    @endif
+                 
 
        <!-- https://cortexjs.io/mathlive/guides/interacting/ -->
        <br>
@@ -52,6 +67,9 @@ latex.addEventListener("input", (ev) =>
 mf.setValue( ev.target.value, {suppressChangeNotifications: true})
 );
 </script>
+
+
+
 
 
 

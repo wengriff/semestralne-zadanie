@@ -105,4 +105,6 @@ protected static function booted()
         }
     });
 }
+    
+
 }
