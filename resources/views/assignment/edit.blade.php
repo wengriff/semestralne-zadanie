@@ -6,10 +6,10 @@
   <td><input type="number" name='points' id='bPoints'value="{{ $assignmentSet->points }}" data-original="{{ $assignmentSet->points }}"></td>
   <td>
     <button class="btn btn-danger" hx-get="{{ route('assignment.edit', $assignmentSet->id) }}" hx-vals='{"_token": "{{ csrf_token() }}"}' id="cancel-button" >
-      Reset
+        {{__('edit.reset')}}
     </button>
     <button class="btn btn-primary" hx-put="{{ route('assignment.update', $assignmentSet->id) }}" hx-include="closest tr" hx-vals='{"_token": "{{ csrf_token() }}"}'>
-      Save
+        {{__('edit.save')}}
     </button>
   </td>
 </tr>

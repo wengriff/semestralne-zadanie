@@ -30,7 +30,7 @@
         },
       }
   </script>
-  <title>Math Solver</title>
+  <title>{{__('app.solver')}}</title>
 </head>
 
 <body class="mb-48">
@@ -39,25 +39,50 @@
       @auth
       <li>
         <span class="font-bold uppercase">
-          Welcome {{auth()->user()->name}}
+          {{__('app.welcome')}}{{auth()->user()->name}}
         </span>
       </li>
-      
+ 
       <li>
         <form class="inline" method="POST" action="/logout">
           @csrf
           <button type="submit">
-            <i class="fa-solid fa-door-closed"></i> Logout
+            <i class="fa-solid fa-door-closed"></i> {{__('app.logout')}}
           </button>
         </form>
       </li>
+            <li class="nav-item dropdown">
+                <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="flag-icon flag-icon-{{Config::get('languages')[App::getLocale()]['flag-icon']}}"></span> {{ Config::get('languages')[App::getLocale()]['display'] }}
+                </button>
+                <ul class="dropdown-menu">
+                    @foreach (Config::get('languages') as $lang => $language)
+                        @if ($lang != App::getLocale())
+                            <li><a class="dropdown-item" href="{{ route('lang.switch', $lang) }}"><span class="flag-icon flag-icon-{{$language['flag-icon']}}"></span> {{$language['display']}}</a></li>
+                        @endif
+                    @endforeach
+                </ul>
+            </li>
       @else
       <li>
-        <a href="/register" class="hover:text-laravel"><i class="fa-solid fa-user-plus"></i> Register</a>
+        <a href="/register" class="hover:text-laravel"><i class="fa-solid fa-user-plus"></i> {{__('app.register')}}</a>
       </li>
       <li>
-        <a href="/login" class="hover:text-laravel"><i class="fa-solid fa-arrow-right-to-bracket"></i> Login</a>
+        <a href="/login" class="hover:text-laravel"><i class="fa-solid fa-arrow-right-to-bracket"></i>{{__('app.login')}}</a>
       </li>
+        <li class="nav-item dropdown">
+            <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="flag-icon flag-icon-{{Config::get('languages')[App::getLocale()]['flag-icon']}}"></span> {{ Config::get('languages')[App::getLocale()]['display'] }}
+            </button>
+            <ul class="dropdown-menu">
+                @foreach (Config::get('languages') as $lang => $language)
+                    @if ($lang != App::getLocale())
+                        <li><a class="dropdown-item" href="{{ route('lang.switch', $lang) }}"><span class="flag-icon flag-icon-{{$language['flag-icon']}}"></span> {{$language['display']}}</a></li>
+                    @endif
+                @endforeach
+            </ul>
+        </li>
+
       @endauth
     </ul>
   </nav>
