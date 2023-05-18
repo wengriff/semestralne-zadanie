@@ -22,7 +22,8 @@ class AuthController extends Controller {
 
         $formFields['password'] = bcrypt($formFields['password']);
         $formFields['role']='student';
-        // Create User
+        // Create useR
+
         $user = User::create($formFields);
 
         // Login
