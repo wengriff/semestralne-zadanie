@@ -10,6 +10,7 @@ use App\Models\AssignmentSet;
 use App\Models\Assignment;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class Controller extends BaseController
 {
@@ -40,12 +41,15 @@ class Controller extends BaseController
         });
 
         return $indexResult->with([
-            'assignments' => $mathProblems,  // If you still need the $assignments variable in the view
+            'assignments' => $mathProblems,  
             'assignmentsGroupedBySet' => $assignmentsGroupedBySet
         ]);
         } else if ($role == 'teacher') {
             $assignmentSetsResult = (new AssignmentController())->assignmentSets();
             $indexResult->with('assignmentSets', $assignmentSetsResult->getData()['assignmentSets']);
+        }else if($role == 'admin'){
+            $users = User::where('role', '<>', 'admin')->get(); 
+            return $indexResult->with('users', $users);
         }
 
     return $indexResult;
@@ -56,11 +60,13 @@ class Controller extends BaseController
 
 public function store(Request $request)
 {
+    $user = auth()->user();
+
     $problemId = $request->input('problemId');
     $solution = $request->input('solution');
-
+    
     // Retrieve the assignment based on the problem ID
-    $assignment = Assignment::find($problemId);
+    $assignment = Assignment::where('student_id', $user->id)->where('math_problem_id', $problemId)->first();
 
     // Update the student_solution field
     $assignment->update([
@@ -89,7 +95,17 @@ public function store(Request $request)
     
 
     // Redirect the user back to the page, or to another page
-    return $this->dashboard();
+    return redirect()->route('dashboard');
+}
+public function updateRole(Request $request, User $user)
+{
+    $validatedData = $request->validate([
+        'role' => 'required|in:student,teacher',
+    ]);
+
+    $user->update($validatedData);
+
+    return redirect()->back()->with('success', 'Role updated successfully!');
 }
 
 }
