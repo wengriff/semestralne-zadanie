@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 use Database\Seeders\LatexFileSeeder;
 use Database\Seeders\AdminSeeder;
+use Database\Seeders\UserSeeder;
 use Illuminate\Filesystem\Filesystem;
 
 class DatabaseSeeder extends Seeder
@@ -17,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             LatexFileSeeder::class,
             AdminSeeder::class,
+            UserSeeder::class,
         ]);
         
     }
