@@ -9,27 +9,33 @@ services:
                 - APP_ENV=${APP_ENV}
         environment:
             - APP_ENV=${APP_ENV}
-            - CONTAINER_ROLE = app
+            - CONTAINER_ROLE=app
         working_dir: /var/www
         volumes:
             - ./:/var/www
         ports:
             - 8000:8000
         depends_on:
-            - database
+            - semestralne_zadanie
             - redis
 
-        #Database server
-    database:
+    #Database server
+    semestralne_zadanie:
         image: mysql:8.0
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
         ports:
             - 3306:3306
         environment:
-            - MYSQL_DATABASE=${DB_DATABASE}
-            - MYSQL_PASSWORD=${DB_PASSWORD}
+            - MYSQL_DATABASE=semestralne_zadanie
             - MYSQL_ALLOW_EMPTY_PASSWORD=yes
         volumes:
             - db-data:/var/lib/mysql
+        healthcheck:
+          test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+          interval: 10s
+          timeout: 5s
+          retries: 5
     redis:
         image: redis:alpine
         command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
@@ -38,4 +44,3 @@ services:
 
 volumes :
     db-data : ~
-

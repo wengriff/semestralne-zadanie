@@ -42,9 +42,7 @@
           {{__('app.welcome')}}{{auth()->user()->name}}
         </span>
       </li>
-      <li>
-        <a href="/listings/manage" class="hover:text-laravel"><i class="fa-solid fa-gear"></i>{{__('app.manage')}}</a>
-      </li>
+ 
       <li>
         <form class="inline" method="POST" action="/logout">
           @csrf
@@ -99,7 +97,7 @@
     {{$slot}}
   </main>
   <footer
-    class="fixed bottom-0 left-0 w-full flex items-center justify-start font-bold bg-laravel text-white h-24 mt-24 opacity-90 md:justify-center">
+    class="fixed bottom-0 left-0 w-full flex items-center justify-start font-bold bg-laravel text-white h-16 mt-24 opacity-90 md:justify-center">
     <p class="ml-2">Copyright &copy; 2023, All Rights reserved</p>
   </footer>
 

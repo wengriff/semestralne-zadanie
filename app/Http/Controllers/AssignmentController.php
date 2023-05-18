@@ -84,6 +84,7 @@ public function solve($problemId)
 
     // Pass the assignment data to the solve view
     return view('student.solve', ['assignment' => $assignment]);
+    
 }
 
 

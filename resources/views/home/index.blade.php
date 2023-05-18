@@ -2,7 +2,13 @@
     <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="{{ asset('js/teacherAssignmentsTable.js') }}"></script>
+
+    <script src="{{ asset('js/teacherAssignmentsTable.js') }}"></script> 
+    <script src="{{asset('js/usersTable.js')}}"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
     <style>
         a.disabled {
             pointer-events: none;
@@ -42,6 +48,7 @@
                 <h3 class="card-title">{{__('index.assignmentS')}}{{ $setID }}</h3>
                 <div class="card-text">
                     @foreach($assignments as $assignment)
+                    
                         <button id="btn-{{ $assignment->id }}" class="btn btn-primary generate-btn m-1" data-problem-id="{{ $assignment->id }}"{{ in_array($assignment->pivot->status, $disabledStatuses) ? ' disabled' : '' }}>
                             {{__('index.problem')}} {{ $assignment->id }}
                         </button>
@@ -53,8 +60,9 @@
 @endforeach
 
     @foreach($assignmentsGroupedBySet as $setID => $assignments)
+    
     @php
-        // Assuming the first assignment in each set defines the start and end date for the whole set
+        
         $startDate = \Carbon\Carbon::parse($assignments->first()->assignmentSet->starting_date);
         $endDate = \Carbon\Carbon::parse($assignments->first()->assignmentSet->deadline);
 
@@ -81,26 +89,32 @@
                         <img class="img-fluid" src="{{ asset('storage/images/' . $imageFileName) }}" alt="Problem Image">
 
                         @elseif($assignment->equation!= '')
-                    <p>{{$assignment->equation}}</p>
 
+                    <p>\({{$assignment->equation}}\)</p>
+                    
                     @endif
                     </div>
-
-
                         <div class="col-md-6">
-                            @if($assignment->pivot->status == 'submitted_100' || $assignment->pivot->status == 'submitted_0')
+                            
+                            <a href="{{ route('solve-problem', ['problemId' => $assignment->id]) }}" 
+   class="btn btn-primary solve-btn {{ $assignment->pivot->status == 'submitted_100' || $assignment->pivot->status == 'submitted_0' ? 'disabled' : '' }}">
+    Solve Problem
+</a>                @if($assignment->pivot->status!='not_generated' || $assignment->pivot->status!='generated')
+                    @if($assignment->pivot->status == 'submitted_100')
+                            <p>{{$assignments->first()->assignmentSet->points}}/{{$assignments->first()->assignmentSet->points}}</p>
                                 <i class="fa fa-check"></i> <!-- Check mark icon. Replace with your own icon as needed. -->
-                            @else
+                            @elseif($assignment->pivot->status == 'submitted_0')
+                            <p>0/{{$assignments->first()->assignmentSet->points}}</p>
                                 <i class="fa fa-times"></i> <!-- X icon. Replace with your own icon as needed. -->
                             @endif
-                            <a href="{{ route('solve-problem', ['problemId' => $assignment->id]) }}"
-   class="btn btn-primary solve-btn {{ $assignment->pivot->status == 'submitted_100' || $assignment->pivot->status == 'submitted_0' ? 'disabled' : '' }}">
-                                {{__('index.solve')}}
-</a>
+                    @endif
+
+             
 
 
                         </div>
                     </div>
+                     
                     </div>
                 @endif
             @endforeach
@@ -156,6 +170,42 @@
                 @endforeach
             </tbody>
         </table>
+
+        @elseif($role=='admin')
+        <table class="table table-striped table-bordered table-hover" id="usersTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Select new Role</th>
+                    <th>Update</th>
+                </tr>
+            </thead>
+            <tbody>
+        @foreach ($users as $user)
+            <tr>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->email }}</td>
+                <td>{{ $user->role }}</td>
+                <td>
+                    <form action="{{ route('user.updateRole', $user->id) }}" method="post">
+                        @csrf
+                        @method('PUT')
+                        <select name="role">
+                            <option value="student">Student</option>
+                            <option value="teacher">Teacher</option>
+                        </select>
+                        </td>
+                        <td>
+                        <button class="bg-laravel text-white rounded py-2 px-4 hover:bg-black" type="submit">Change Role</button>
+                       </td>
+                    </form>
+                
+            </tr>
+        @endforeach
+    </tbody>
+</table>
         @else
         <p>{{__('index.invalidRole')}}</p>
         @endif
