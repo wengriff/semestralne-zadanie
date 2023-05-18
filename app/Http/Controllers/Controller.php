@@ -72,7 +72,8 @@ public function store(Request $request)
     $assignment->update([
         'student_solution' => $solution
     ]);
-     // Prepare the data to be sent as JSON
+     // Prepare the data to be sent as JSOn
+
      $data = [
         'expr1' => $assignment->mathProblem->solution,
         'expr2' => $solution

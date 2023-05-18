@@ -17,7 +17,8 @@ class TeacherController extends Controller
                         ->each(function ($student) {
                             $student->generated_equations_count = $student->assignments()->where('status', 'generated')->count();
                             $student->submitted_equations_count = $student->assignments()->whereIn('status', ['submitted_100', 'submitted_0'])->count();
-                        // calculate points
+                        // calculate point how many
+
                         $student->points = $student->assignments()->where('status', 'submitted_100')->get()->sum(function ($assignment) {
                             return $assignment->mathProblem->assignmentSet->points;
                         });
