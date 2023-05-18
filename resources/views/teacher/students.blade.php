@@ -40,7 +40,7 @@
             @endforeach
         </tbody>
     </table>
-    <a href="{{ route('export.csv') }}">Export to CSV</a>
+    <a class="btn btn-warning" href="{{ route('export.csv') }}">Export to CSV</a>
 
 </x-card>
 </x-app>
