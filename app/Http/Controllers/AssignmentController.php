@@ -35,6 +35,7 @@ class AssignmentController extends Controller
     $assignmentSet->save();
 
     return view('assignment.show', compact('assignmentSet'));
+
 }
 public function updateStatus(Request $request) {
     // Get the assignment from the pivot table
@@ -72,7 +73,7 @@ public function show($id)
 {
     $assignment = Assignment::find($id);
     // replace 'show' with the correct view name
-    return view('assignments.show', compact('assignment')); 
+    return view('assignments.show', compact('assignment'));
 }
 
 public function solve($problemId)
