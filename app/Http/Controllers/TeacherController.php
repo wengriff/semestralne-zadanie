@@ -12,7 +12,7 @@ class TeacherController extends Controller
     public function students()
     {
         $students = User::where('role', 'student')
-                        // Add your relationships and aggregates here
+                        // Add your relationships and aggregates her
                         ->get()
                         ->each(function ($student) {
                             $student->generated_equations_count = $student->assignments()->where('status', 'generated')->count();
