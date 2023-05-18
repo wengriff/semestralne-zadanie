@@ -11,6 +11,7 @@
    class="btn btn-primary">
     {{__('students.assignments')}}
 </a>
+
 <table class="table table-striped table-bordered table-hover" id="studentTable">
         <thead>
             <tr>
@@ -40,7 +41,7 @@
             @endforeach
         </tbody>
     </table>
-    <a href="{{ route('export.csv') }}">Export to CSV</a>
+    <a class="btn btn-warning" href="{{ route('export.csv') }}">Export to CSV</a>
 
 </x-card>
 </x-app>
