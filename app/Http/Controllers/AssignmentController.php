@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Http;
 
 class AssignmentController extends Controller
 {
+
     public function assignmentSets()
     {
         $assignmentSets = AssignmentSet::all();
