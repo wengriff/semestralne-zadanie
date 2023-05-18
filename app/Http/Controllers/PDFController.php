@@ -33,7 +33,7 @@ class PDFController extends Controller
     }
     /*public function exportPDF()
     {
-        $html = View::make('tutorial.tutorial')->render();
+        $html = View::make('tutorial.tutorial')->render();s
         return response($html);
         $start = strpos($html, '<div id="export">');
         $end = strpos($html, '</div>', $start);
